@@ -1,6 +1,19 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
+
+
+const GeoSchema = new Schema({
+    type:{
+        type: String,
+        default: "Point"
+    },
+    coordinates:{
+        type:[Number],
+        index:"2dsphere"
+    }
+})
+
 //Stworz film schema i model
 const filmSchema = new Schema({
     name: {
@@ -13,8 +26,8 @@ const filmSchema = new Schema({
     available:{
         type: Boolean,
         default: false
-    }
-    //dodac do geo lokal
+    },
+    geometry: GeoSchema
 })
 
 const Film = mongoose.model('film',filmSchema)
