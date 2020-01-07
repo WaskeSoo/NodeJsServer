@@ -2,12 +2,15 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 
+//stworz express app
 const app = express()
 
 
 //Połacz do mongodb
 mongoose.connect('mongodb+srv://admin:Password@cluster0-etsxy.mongodb.net/test?retryWrites=true&w=majority',{ useUnifiedTopology: true,useNewUrlParser: true })
 
+
+app.use(express.static('public'))
 
 
 app.use(bodyParser.json())

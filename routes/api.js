@@ -4,27 +4,28 @@ const Film = require('../models/film')
 
 //lista filmow z db
 router.get('/filmy',function(req,res,next){
-// Film.find({}).then(function(film){
-//     res.send(film)
-// })
-Film.aggregate().near({
-    near:{
-    type: 'Point',
-    coordinates: [parseFloat(req.query.Ing), parseFloat(req.query.lat)]},
-    maxDistance: 300000,
-    spherical: true,
-    distanceField: "dis"
-   }).then(function(filmy){
-       res.send(filmy)
-   })
-})
+Film.aggregate()
+        .near({
+            near: {
+            type: "Point",
+            coordinates: [parseFloat(req.query.lng),parseFloat(req.query.lat)] 
+            },
+            distanceField: "dis", 
+            maxDistance: 100000, 
+            spherical: true 
+        })
+        .then(function(filmy) {
+            res.send(filmy); 
+        })
+        .catch(next);
+});
 
-//Dodaj filmy do db
-router.post('/filmy',function(req,res,next){
-Film.create(req.body).then(function(film){
-    res.send(film)
-}).catch(next)
-})
+router.post('/filmy', function(req, res, next){
+    Film.create(req.body).then(function(film){
+        res.send(film);
+    }).catch(next);
+});
+
 
 //Aktualizuj filmy w db
 router.put('/filmy/:id',function(req,res,next){
